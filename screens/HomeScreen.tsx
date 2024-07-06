@@ -16,6 +16,7 @@ import {
 } from 'react-native-heroicons/outline';
 import Category from '../components/Category';
 import {RootStackParamList} from '../App';
+import {Header} from '@rneui/themed';
 
 const HomeScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -40,21 +41,26 @@ const HomeScreen = () => {
   return (
     <SafeAreaView className="bg-white pt-2">
       {/* Header */}
-      <View className="flex-row pb-3 items-center mx-4 space-x-2">
-        <Image
-          source={{
-            uri: '', // logo image can be used here
-          }}
-          className="h-9 w-9 bg-gray-300 rounded-full"
-        />
-        <View className="flex-1">
-          <Text className="font-bold pt-1 ml-1 text-xl">SAS Vendor</Text>
-        </View>
-        <UserIcon size={30} color={'#3cb371'} />
-      </View>
+      <Header
+        elevated
+        leftComponent={
+          <Image
+            source={{
+              uri: '', // logo image can be used here
+            }}
+            className="h-9 w-9 bg-gray-300 rounded-full"
+          />
+        }
+        centerComponent={
+          <Text className="font-bold pt-1 ml-1 text-xl text-white">
+            SAS Vendor
+          </Text>
+        }
+        rightComponent={<UserIcon size={30} color="white" />}
+      />
 
       {/* Search */}
-      <View className="flex-row items-center space-x-2 mx-4 pb-2">
+      <View className="flex-row items-center space-x-2 mx-2 mt-2 pb-2">
         <View className="flex-row flex-1 space-x-2 bg-gray-200 pl-2 items-center">
           <MagnifyingGlassIcon size={20} color={'gray'} />
           <TextInput placeholder="Search your menu" keyboardType="default" />

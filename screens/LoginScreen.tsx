@@ -1,33 +1,42 @@
-import {View, TextInput, Button, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../App';
+import {Input, Button, Text, Header, Avatar} from '@rneui/themed';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {ArrowLeftIcon} from 'react-native-heroicons/outline';
 
 const LoginScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState<{[key: string]: string}>({});
   const [isFormValid, setIsFormValid] = useState(false);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  });
+
   useEffect(() => {
     validateForm();
-  }, [name, email]);
+  }, [password, email]);
 
   const validateForm = () => {
     let errors: any = {};
-
-    // Validate name field
-    if (!name) {
-      errors.name = 'Name is required.';
-    }
 
     // Validate email field
     if (!email) {
       errors.email = 'Email is required.';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       errors.email = 'Email is invalid.';
+    }
+
+    // Validate password field
+    if (!password) {
+      errors.password = 'Password is required.';
     }
 
     // Set the errors and update form validity
@@ -39,14 +48,17 @@ const LoginScreen = () => {
     if (isFormValid) {
       // Form is valid, perform the submission logic
       try {
-        await fetch('http://localhost:8000/api/signin', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+        const res = await fetch(
+          'https://cafeteria-connect-backend.onrender.com/api/signin',
+          {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({password, email}),
           },
-          body: JSON.stringify({name, email}),
-        });
+        );
         navigation.navigate('Home');
       } catch (error) {
         console.error(error);
@@ -58,30 +70,69 @@ const LoginScreen = () => {
   };
 
   return (
-    <View className="flex-1 p-2 justify-center space-y-4">
-      <TextInput
-        className="border border-gray-300 rounded-lg"
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
+    <SafeAreaProvider>
+      <Header
+        leftComponent={
+          <ArrowLeftIcon
+            color={'white'}
+            onPress={() => navigation.navigate('Auth')}
+          />
+        }
       />
-      <TextInput
-        className="border border-gray-300 rounded-lg"
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <View className="bg-green-400 rounded-lg">
-        <Button title="Submit" disabled={!isFormValid} onPress={handleLogin} />
+      <View className="p-4 items-center">
+        <Avatar
+          rounded
+          source={{
+            uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+          }}
+          size={'xlarge'}
+        />
       </View>
-
-      {/* Display error messages */}
-      {Object.values(errors).map((error, index) => (
-        <Text key={index} className="text-red-700">
-          {error}
-        </Text>
-      ))}
-    </View>
+      <View className="flex-1 p-2">
+        <View className="space-y-10 pt-10">
+          <Input
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            errorMessage={errors.email}
+            renderErrorMessage
+          />
+          <Input
+            placeholder="Password"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+            errorMessage={errors.password}
+            renderErrorMessage
+          />
+        </View>
+        <View style={{marginTop: '35%'}}>
+          <View>
+            <Button
+              title="LOG IN"
+              disabled={!isFormValid}
+              buttonStyle={{
+                borderWidth: 1,
+                borderColor: 'white',
+                borderRadius: 30,
+              }}
+              titleStyle={{fontWeight: 'bold'}}
+              onPress={handleLogin}
+            />
+          </View>
+          <View className="items-center mt-2">
+            <Text>
+              Don't have a CafeConnect account?{' '}
+              <Text
+                style={{fontWeight: 'bold'}}
+                onPress={() => navigation.navigate('Register')}>
+                Register now
+              </Text>
+            </Text>
+          </View>
+        </View>
+      </View>
+    </SafeAreaProvider>
   );
 };
 

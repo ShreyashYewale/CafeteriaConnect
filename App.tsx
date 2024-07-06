@@ -6,6 +6,7 @@ import AuthScreen from './screens/AuthScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ItemScreen from './screens/ItemScreen';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -27,15 +28,19 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App(): React.JSX.Element {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Auth" component={AuthScreen}></Stack.Screen>
-        <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
-        <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
-        <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
-        <Stack.Screen name="Item" component={ItemScreen}></Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Auth" component={AuthScreen}></Stack.Screen>
+          <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}></Stack.Screen>
+          <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
+          <Stack.Screen name="Item" component={ItemScreen}></Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 

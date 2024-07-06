@@ -1,7 +1,7 @@
 import {View, Text, ScrollView} from 'react-native';
 import React from 'react';
-import {ArrowRightCircleIcon} from 'react-native-heroicons/outline';
 import Card from './Card';
+import {PlusCircleIcon} from 'react-native-heroicons/solid';
 
 interface CategoryType {
   id: string;
@@ -15,7 +15,7 @@ const Category = ({id, type, title, description}: CategoryType) => {
     <View>
       <View className="mt-4 flex-row items-center justify-between px-4">
         <Text className="font-bold text-lg">{title}</Text>
-        <ArrowRightCircleIcon size={20} color={'#3cb371'} />
+        <PlusCircleIcon size={25} color={'#3cb371'} />
       </View>
       <Text className="text-xs text-gray-500 px-4">{description}</Text>
 
