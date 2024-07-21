@@ -1,8 +1,8 @@
-import {View} from 'react-native';
+import {View, Image} from 'react-native';
 import React, {useLayoutEffect} from 'react';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../App';
-import {Button, Text, Image} from '@rneui/themed';
+import {Button, Text} from 'react-native-paper';
 
 const AuthScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -15,20 +15,13 @@ const AuthScreen = () => {
   return (
     <View className="flex-1 justify-center space-y-24">
       <View className="items-center">
-        <Text
-          h2
-          h2Style={{
-            fontFamily: 'Nunito-SemiBold',
-            fontWeight: '300',
-          }}>
-          CafeConnect
-        </Text>
+        <Text variant="displaySmall">CafeConnect</Text>
         <View>
           <Image
             source={{
               uri: '', // logo image can be used here
             }}
-            containerStyle={{
+            style={{
               width: 190,
               height: 190,
               borderRadius: 100,
@@ -37,36 +30,18 @@ const AuthScreen = () => {
         </View>
       </View>
       <View className="items-center space-y-4">
-        <View>
-          <Button
-            title="VENDOR"
-            buttonStyle={{
-              borderWidth: 1,
-              borderColor: 'white',
-              borderRadius: 30,
-            }}
-            containerStyle={{
-              width: 200,
-            }}
-            titleStyle={{fontWeight: 'bold', fontFamily: 'Nunito-SemiBold'}}
-            onPress={() => navigation.navigate('Login')}
-          />
-        </View>
-        <View>
-          <Button
-            title="EMPLOYEE"
-            buttonStyle={{
-              borderWidth: 1,
-              borderColor: 'white',
-              borderRadius: 30,
-            }}
-            containerStyle={{
-              width: 200,
-            }}
-            titleStyle={{fontWeight: 'bold', fontFamily: 'Nunito-SemiBold'}}
-            onPress={() => navigation.navigate('Login')}
-          />
-        </View>
+        <Button
+          mode="contained"
+          className="w-40"
+          onPress={() => navigation.navigate('Login')}>
+          VENDOR
+        </Button>
+        <Button
+          className="w-40"
+          mode="contained"
+          onPress={() => navigation.navigate('Login')}>
+          EMPLOYEE
+        </Button>
       </View>
     </View>
   );

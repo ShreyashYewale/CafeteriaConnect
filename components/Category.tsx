@@ -1,7 +1,8 @@
 import {View, Text, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Card from './Card';
 import {PlusCircleIcon} from 'react-native-heroicons/solid';
+import AddItem from '../screens/AddItem';
 
 interface CategoryType {
   id: string;
@@ -11,11 +12,17 @@ interface CategoryType {
 }
 
 const Category = ({id, type, title, description}: CategoryType) => {
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <View>
       <View className="mt-4 flex-row items-center justify-between px-4">
         <Text className="font-bold text-lg">{title}</Text>
-        <PlusCircleIcon size={25} color={'#3cb371'} />
+        <PlusCircleIcon
+          size={25}
+          color={'#e6b3ff'}
+          onPress={() => setOpenModal(true)}
+        />
       </View>
       <Text className="text-xs text-gray-500 px-4">{description}</Text>
 
@@ -55,6 +62,10 @@ const Category = ({id, type, title, description}: CategoryType) => {
           short_description={'Light food'}
         />
       </ScrollView>
+
+      {openModal && (
+        <AddItem openModal={openModal} setOpenModal={setOpenModal} />
+      )}
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import {View, Image, Text as RNText, FlatList} from 'react-native';
+import {View, Image, FlatList} from 'react-native';
 import React, {useLayoutEffect, useState} from 'react';
 import {StarIcon} from 'react-native-heroicons/solid';
 import {
@@ -8,8 +8,14 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import {RootStackParamList} from '../App';
-import {Header, Input, Text, Button, ListItem, Avatar} from '@rneui/themed';
-import {ArrowLeftIcon} from 'react-native-heroicons/outline';
+import {
+  TextInput,
+  Text,
+  Button,
+  Avatar,
+  Appbar,
+  List,
+} from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const ItemScreen = () => {
@@ -27,27 +33,20 @@ const ItemScreen = () => {
 
   return (
     <SafeAreaProvider>
-      <Header
-        leftComponent={
-          <ArrowLeftIcon
-            color={'white'}
-            onPress={() => navigation.navigate('Home')}
-          />
-        }
-      />
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate('Landing')} />
+        {/* <Appbar.Content title="Title" /> */}
+        {/* <Appbar.Action icon="calendar" onPress={() => {}} /> */}
+        {/* <Appbar.Action icon="magnify" onPress={() => {}} /> */}
+      </Appbar.Header>
       <View className="flex-1 space-y-1">
         <View className="flex-row items-center justify-between p-2">
-          <Text
-            h4
-            h4Style={{
-              fontFamily: 'Nunito-SemiBold',
-              fontWeight: '700',
-            }}>
-            {title}
-          </Text>
+          <Text variant="titleLarge">{title}</Text>
           <View className="flex-row">
             <StarIcon color="green" opacity={0.5} size={26} />
-            <RNText className="text-green-500 text-lg">{rating}</RNText>
+            <Text variant="titleLarge" className="text-green-500">
+              {rating}
+            </Text>
           </View>
         </View>
         <Image source={{uri: imgUrl}} className="h-56 w-61 rounded-sm p-2" />
@@ -63,34 +62,18 @@ const ItemScreen = () => {
           <FlatList
             ListHeaderComponent={
               <View>
-                <ListItem
-                  bottomDivider
-                  containerStyle={{backgroundColor: 'rgb(243 244 246)'}}>
-                  <Avatar
-                    rounded
-                    source={{
-                      uri: '',
-                    }}
-                  />
-                  <ListItem.Content>
-                    <ListItem.Title>Sid Singh</ListItem.Title>
-                    <ListItem.Subtitle>Ghar Jesi Roti 😋</ListItem.Subtitle>
-                  </ListItem.Content>
-                </ListItem>
-                <ListItem
-                  bottomDivider
-                  containerStyle={{backgroundColor: 'rgb(243 244 246)'}}>
-                  <Avatar
-                    rounded
-                    source={{
-                      uri: '',
-                    }}
-                  />
-                  <ListItem.Content>
-                    <ListItem.Title>Bahaduri</ListItem.Title>
-                    <ListItem.Subtitle>Really Awesome 👌</ListItem.Subtitle>
-                  </ListItem.Content>
-                </ListItem>
+                <List.Item
+                  title="Sid Singh"
+                  description="Ghar Jesi Roti 😋"
+                  left={() => (
+                    <Avatar.Image
+                      size={24}
+                      source={{
+                        uri: 'https://randomuser.me/api/portraits/men/36.jpg',
+                      }}
+                    />
+                  )}
+                />
               </View>
             }
             data={[]}
@@ -99,22 +82,13 @@ const ItemScreen = () => {
           />
         </View>
         <View>
-          <Input
+          <TextInput
             keyboardType="default"
             placeholder="Write something"
             onChangeText={(text: string) => setReview(text)}
           />
           <View className="flex-row-reverse">
-            <Button
-              title="Post"
-              buttonStyle={{
-                borderWidth: 1,
-                borderColor: 'white',
-                borderRadius: 10,
-              }}
-              titleStyle={{fontWeight: 'bold'}}
-              onPress={() => {}}
-            />
+            <Button onPress={() => {}}>Post</Button>
           </View>
         </View>
       </View>

@@ -1,13 +1,9 @@
 import {View} from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {RootStackParamList} from '../App';
-import {TextInput, Button, Appbar, Text} from 'react-native-paper';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Appbar, Button, Text, TextInput} from 'react-native-paper';
 
-const RegisterScreen = () => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+const ProfileScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,12 +14,6 @@ const RegisterScreen = () => {
   useEffect(() => {
     validateForm();
   }, [name, email, password, cpassword]);
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  });
 
   const validateForm = () => {
     let errors: any = {};
@@ -74,7 +64,6 @@ const RegisterScreen = () => {
             body: JSON.stringify({name, email, password}),
           },
         );
-        navigation.navigate('Landing');
       } catch (error) {
         console.error(error);
       }
@@ -87,10 +76,9 @@ const RegisterScreen = () => {
   return (
     <SafeAreaProvider>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate('Auth')} />
-        <Appbar.Content title="REGISTER" />
+        <Appbar.Content title="USER PROFILE" />
       </Appbar.Header>
-      <View className="flex-1 p-1 mt-8 justify-between">
+      <View className="flex-1 p-1 mt-2 justify-between">
         <View className="space-y-6">
           <TextInput
             placeholder="Name"
@@ -128,7 +116,7 @@ const RegisterScreen = () => {
             mode="contained"
             disabled={!isFormValid}
             onPress={handleSubmit}>
-            REGISTER
+            UPDATE
           </Button>
         </View>
       </View>
@@ -136,4 +124,4 @@ const RegisterScreen = () => {
   );
 };
 
-export default RegisterScreen;
+export default ProfileScreen;

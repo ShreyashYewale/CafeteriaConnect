@@ -1,22 +1,9 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  TextInput,
-  ScrollView,
-  BackHandler,
-} from 'react-native';
+import {SafeAreaView, ScrollView, BackHandler} from 'react-native';
 import React, {useEffect, useLayoutEffect} from 'react';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {
-  AdjustmentsVerticalIcon,
-  MagnifyingGlassIcon,
-  UserIcon,
-} from 'react-native-heroicons/outline';
 import Category from '../components/Category';
 import {RootStackParamList} from '../App';
-import {Header} from '@rneui/themed';
+import {Appbar} from 'react-native-paper';
 
 const HomeScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -41,32 +28,11 @@ const HomeScreen = () => {
   return (
     <SafeAreaView className="bg-white pt-2">
       {/* Header */}
-      <Header
-        elevated
-        leftComponent={
-          <Image
-            source={{
-              uri: '', // logo image can be used here
-            }}
-            className="h-9 w-9 bg-gray-300 rounded-full"
-          />
-        }
-        centerComponent={
-          <Text className="font-bold pt-1 ml-1 text-xl text-white">
-            SAS Vendor
-          </Text>
-        }
-        rightComponent={<UserIcon size={30} color="white" />}
-      />
 
-      {/* Search */}
-      <View className="flex-row items-center space-x-2 mx-2 mt-2 pb-2">
-        <View className="flex-row flex-1 space-x-2 bg-gray-200 pl-2 items-center">
-          <MagnifyingGlassIcon size={20} color={'gray'} />
-          <TextInput placeholder="Search your menu" keyboardType="default" />
-        </View>
-        <AdjustmentsVerticalIcon color={'#3cb371'} />
-      </View>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate('Auth')} />
+        <Appbar.Content title="SAS Vendor" />
+      </Appbar.Header>
 
       {/* Body */}
 

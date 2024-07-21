@@ -2,9 +2,8 @@ import {View} from 'react-native';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../App';
-import {Input, Button, Text, Header, Avatar} from '@rneui/themed';
+import {TextInput, Button, Text, Appbar} from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {ArrowLeftIcon} from 'react-native-heroicons/outline';
 
 const LoginScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -59,7 +58,7 @@ const LoginScreen = () => {
             body: JSON.stringify({password, email}),
           },
         );
-        navigation.navigate('Home');
+        navigation.navigate('Landing');
       } catch (error) {
         console.error(error);
       }
@@ -71,55 +70,39 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaProvider>
-      <Header
-        leftComponent={
-          <ArrowLeftIcon
-            color={'white'}
-            onPress={() => navigation.navigate('Auth')}
-          />
-        }
-      />
-      <View className="p-4 items-center">
-        <Avatar
-          rounded
-          source={{
-            uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-          }}
-          size={'xlarge'}
-        />
-      </View>
-      <View className="flex-1 p-2">
-        <View className="space-y-10 pt-10">
-          <Input
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            errorMessage={errors.email}
-            renderErrorMessage
-          />
-          <Input
-            placeholder="Password"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
-            errorMessage={errors.password}
-            renderErrorMessage
-          />
-        </View>
-        <View style={{marginTop: '35%'}}>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate('Auth')} />
+        <Appbar.Content title="LOG IN" />
+      </Appbar.Header>
+      <View className="flex-1 p-1 mt-20 justify-between">
+        <View className="space-y-10">
           <View>
-            <Button
-              title="LOG IN"
-              disabled={!isFormValid}
-              buttonStyle={{
-                borderWidth: 1,
-                borderColor: 'white',
-                borderRadius: 30,
-              }}
-              titleStyle={{fontWeight: 'bold'}}
-              onPress={handleLogin}
+            <TextInput
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              error={!!errors.email}
             />
+            {errors.email && <Text>{errors.email}</Text>}
           </View>
+          <View>
+            <TextInput
+              placeholder="Password"
+              secureTextEntry
+              value={password}
+              onChangeText={setPassword}
+              error={!!errors.password}
+            />
+            {errors.password && <Text>{errors.password}</Text>}
+          </View>
+        </View>
+        <View className="mb-4">
+          <Button
+            mode="contained"
+            disabled={!isFormValid}
+            onPress={handleLogin}>
+            LOG IN
+          </Button>
           <View className="items-center mt-2">
             <Text>
               Don't have a CafeConnect account?{' '}
